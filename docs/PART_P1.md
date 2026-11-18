@@ -37,7 +37,7 @@
   distance d from an arc always has a sample within d + 10 m, so querying radius R + 10 m and then computing
   the exact point-to-segment distance finds every arc within R.
 - We keep the **K = 10 nearest arcs within R = 50 m**. This was chosen from the recall sweep
-  (`results/p1/candidate_recall.csv`, `figures/candidate_recall.png`):
+  (`results/p1/candidate_recall.csv`; plot in `results/eda/figures/candidate_recall.png`):
 
   | radius \ K | 2 | 4 | 10 | 24 |
   |---|---|---|---|---|
