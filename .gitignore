@@ -1,0 +1,14 @@
+# raw data (provided by organisers, never committed)
+Student folder/
+# regenerable caches / environments
+artifacts/*.parquet
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.log
+results_p2_log.txt
+# comparison models too large for GitHub (regenerate with: python -m models.train_models)
+artifacts/models/RandomForest.joblib
+artifacts/models/ExtraTrees.joblib
+artifacts/models/KNN.joblib
