@@ -1,0 +1,20 @@
+tuning trips: [np.str_('00000008'), np.str_('00000010'), np.str_('00000019'), np.str_('00000038'), np.str_('00000050'), np.str_('00000057'), np.str_('00000064'), np.str_('00000078'), np.str_('00000088'), np.str_('00000090'), np.str_('00000093'), np.str_('00000097')]
+classifier-only on tuning trips: top1=0.8764 continuity=0.9071
+  emission  alpha  sigma  beta  gap_s   top1  continuity  route_f1  seconds
+classifier    0.5   10.0  10.0  120.0 0.9373      0.9705    0.9396   1.0214
+classifier    1.0   10.0   5.0  120.0 0.9373      0.9705    0.9396   1.0785
+classifier    1.0   10.0   5.0   30.0 0.9370      0.9705    0.9393   1.0580
+classifier    0.5   10.0  10.0   30.0 0.9370      0.9705    0.9393   1.0697
+classifier    0.5   10.0   5.0  120.0 0.9339      0.9709    0.9423   1.0709
+classifier    0.5   10.0   5.0   30.0 0.9335      0.9708    0.9411   1.0337
+classifier    0.5   10.0  20.0  120.0 0.9324      0.9695    0.9331   1.1211
+classifier    1.0   10.0  10.0  120.0 0.9324      0.9695    0.9331   1.0524
+selected: {'emission': 'classifier', 'alpha': 0.5, 'sigma': 10.0, 'beta': 10.0, 'gap_s': 120.0, 'p_floor': 0.0001, 'max_search_m': 20000.0}
+
+STUDENT TEST (9 trips with a road network):
+                         top1  continuity  route_continuity_filled  route_precision  route_recall  route_f1  seconds
+decoder                                                                                                            
+HMM + Viterbi         0.9469      0.9774                   0.9999           0.9578        0.9919    0.9741   0.7957
+classifier only       0.8975      0.9285                   0.9908           0.6622        0.9924    0.7819   0.0725
+distance HMM (no ML)  0.9297      0.9736                   0.9999           0.9339        0.9908    0.9604   0.7684
+maps for trips: ['00000077', '00000052', '00000009']
