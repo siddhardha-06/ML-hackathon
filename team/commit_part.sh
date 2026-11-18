@@ -64,6 +64,15 @@ else
   git symbolic-ref HEAD "refs/heads/$BRANCH"
 fi
 
+is_mine() {  # is this path inside one of this member's owned paths?
+  local p
+  for p in "${PATHS[@]}"; do
+    [ "$1" = "$p" ] && return 0
+    case "$1" in "$p"/*) return 0 ;; esac
+  done
+  return 1
+}
+
 sync_with_remote() {
   [ "$REMOTE_HAS_BRANCH" = 1 ] || return 0
   if ! git rev-parse -q --verify HEAD >/dev/null; then
@@ -74,18 +83,26 @@ sync_with_remote() {
     say "Joined existing history on origin/$BRANCH"
     return 0
   fi
-  # remove local untracked copies that are byte-identical to the version on GitHub, so the
-  # pull can bring in the tracked file (ls-tree -z: avoids Git Bash path mangling of "rev:path")
-  local line meta f removed=0
+  # Local untracked copies of files that are already on GitHub would block the pull:
+  #  * byte-identical copy            -> removed (git brings back the same file)
+  #  * a TEAMMATE's file that differs -> moved to .git/replaced-by-remote/ (the owner's pushed
+  #                                      version wins; your old copy is kept there as a backup)
+  #  * one of YOUR files that differs -> left alone (git will stop and tell you)
+  # (ls-tree -z: avoids Git Bash path mangling of "rev:path")
+  local line meta f removed=0 replaced=0
   while IFS= read -r -d '' line; do
     meta=${line%%$'\t'*}; f=${line#*$'\t'}
     [ -f "$f" ] || continue
     git ls-files --error-unmatch -- "$f" >/dev/null 2>&1 && continue
     if [ "$(git hash-object -- "$f")" = "${meta##* }" ]; then
       rm -f -- "$f"; removed=$((removed + 1))
+    elif ! is_mine "$f"; then
+      mkdir -p ".git/replaced-by-remote/$(dirname -- "$f")"
+      mv -f -- "$f" ".git/replaced-by-remote/$f"; replaced=$((replaced + 1))
     fi
   done < <(git ls-tree -r -z "origin/$BRANCH")
   [ "$removed" -gt 0 ] && say "Re-syncing $removed file(s) that teammates already pushed"
+  [ "$replaced" -gt 0 ] && say "Using teammates' pushed version of $replaced file(s) (old copies in .git/replaced-by-remote/)"
   git pull -q --rebase --autostash origin "$BRANCH" || {
     git rebase --abort >/dev/null 2>&1
     die "Could not merge teammates' work (same file edited differently). Ask the owner of that file, then re-run."; }
