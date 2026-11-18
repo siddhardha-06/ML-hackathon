@@ -1,0 +1,47 @@
+{
+  "model": "LightGBM",
+  "params": {
+    "n_estimators": 350,
+    "learning_rate": 0.04443752878689922,
+    "num_leaves": 34,
+    "min_child_samples": 33,
+    "subsample": 0.54233153526448,
+    "colsample_bytree": 0.5348557454520216,
+    "reg_lambda": 0.40815428482970195,
+    "reg_alpha": 0.0038161167828075064,
+    "subsample_freq": 1
+  },
+  "features": [
+    "dist",
+    "dist_minus_min",
+    "dist_ratio",
+    "cand_rank",
+    "n_cands",
+    "heading_diff",
+    "cos_heading",
+    "speed",
+    "disp",
+    "proj_t",
+    "arc_len",
+    "dist_prev",
+    "dist_next",
+    "out_deg_to",
+    "in_deg_from",
+    "dt_prev"
+  ],
+  "n_trials": 30,
+  "objective": "mean 3-fold GroupKFold observation Top-1 (train trips)",
+  "best_cv_top1": 0.8766885186486232,
+  "search_seconds": 291.8157136999944,
+  "final_train_rows": 1209597,
+  "final_fit_seconds": 8.279053300007945,
+  "final_student_test": {
+    "accuracy": 0.9641775733408342,
+    "precision": 0.8758109927775738,
+    "recall": 0.8614689945815773,
+    "macro_f1": 0.9239216230428349,
+    "log_loss": 0.08733015594306252,
+    "top1": 0.8748197115384615,
+    "infer_ms_per_1k_rows": 2.1883291691765394
+  }
+}

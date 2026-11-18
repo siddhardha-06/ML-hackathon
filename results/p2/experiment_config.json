@@ -1,0 +1,6 @@
+{
+  "train_obs_frac": 0.3,
+  "n_folds": 5,
+  "seed": 42,
+  "student_test_miss_rate": 0.0018028846153846155
+}

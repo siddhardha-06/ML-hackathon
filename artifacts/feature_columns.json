@@ -1,0 +1,1 @@
+["dist", "dist_minus_min", "dist_ratio", "cand_rank", "n_cands", "heading_diff", "cos_heading", "speed", "disp", "proj_t", "arc_len", "dist_prev", "dist_next", "out_deg_to", "in_deg_from", "dt_prev"]
